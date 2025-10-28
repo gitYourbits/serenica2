@@ -23,6 +23,15 @@ import CareerCoachBot from "./components/chatbots/careerCoachBot"
 import CognitiveBTBot from "./components/chatbots/cognitiveBTbot"
 import MindfulnessBTBot from "./components/chatbots/mindfulnessBTbot"
 import Policy from "./pages/policy"
+// Questionnaire components
+import QuestionnaireList from "./components/questionnaires/QuestionnaireList"
+import QuestionnaireForm from "./components/questionnaires/QuestionnaireForm"
+import QuestionnaireResults from "./components/questionnaires/QuestionnaireResults"
+import QuestionnaireHistory from "./components/questionnaires/QuestionnaireHistory"
+// Neurobic exercise components
+import NeurobicDashboard from "./components/neurobic/NeurobicDashboard"
+import ExerciseSession from "./components/neurobic/ExerciseSession"
+import NeurobicProgress from "./components/neurobic/NeurobicProgress"
 
 
 function App() {
@@ -44,6 +53,13 @@ function App() {
                 <Route path="messages" element={<Messages />} />
                 <Route path="resources" element={<Resources />} />
                 <Route path="settings" element={<Settings />} />
+                <Route path="questionnaires" element={<QuestionnaireList />} />
+                <Route path="questionnaires/:id" element={<QuestionnaireForm />} />
+                <Route path="questionnaires/results/:resultId" element={<QuestionnaireResults />} />
+                <Route path="questionnaires/history" element={<QuestionnaireHistory />} />
+                <Route path="neurobic" element={<NeurobicDashboard />} />
+                <Route path="neurobic/exercise/:exerciseId" element={<ExerciseSession />} />
+                <Route path="neurobic/progress" element={<NeurobicProgress />} />
               </Route>
               <Route path="comingsoon" element={<ComingSoon />} />
               <Route path="cbtchat" element={<CognitiveBTBot />} />

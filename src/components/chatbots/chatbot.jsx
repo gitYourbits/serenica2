@@ -1,11 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import { chatAI } from "../../services/chatCompletion";
 import { checkOllamaStatus } from "../../config/llama";
+import { useApp } from "../../context/appContext";
 import styles from "../../assets/styles/chatbots/chatbot.module.css";
 import { toast } from 'react-toastify';
 
 function Chatbot({ headline, servicePrompt }) {
+    const { user, getQuestionnaireResponses } = useApp();
     const [thoughtValue, setThoughtValue] = useState("");
+    const [userContext, setUserContext] = useState("");
     const [messages, setMessages] = useState([
         {
             role: "system",
@@ -16,6 +19,55 @@ function Chatbot({ headline, servicePrompt }) {
     const [loading, setLoading] = useState(false);
     const [ollamaStatus, setOllamaStatus] = useState(null);
     const messagesEndRef = useRef(null);
+
+    // Fetch user context from recent questionnaires
+    useEffect(() => {
+        async function fetchUserContext() {
+            try {
+                const responses = await getQuestionnaireResponses(user.uid);
+                const data = responses.docs.map((doc) => doc.data());
+                
+                // Get most recent assessment
+                if (data.length > 0) {
+                    data.sort((a, b) => {
+                        if (b.timestamp && a.timestamp) {
+                            return b.timestamp.seconds - a.timestamp.seconds;
+                        }
+                        return 0;
+                    });
+                    
+                    const recent = data[0];
+                    let contextInfo = `\n\nUSER CONTEXT (from recent mental health assessment):\n`;
+                    
+                    if (recent.score.severity) {
+                        contextInfo += `- Recent assessment shows ${recent.score.severity.toLowerCase()} symptoms\n`;
+                    }
+                    if (recent.score.depressionSeverity) {
+                        contextInfo += `- Depression: ${recent.score.depressionSeverity}\n`;
+                        contextInfo += `- Anxiety: ${recent.score.anxietySeverity}\n`;
+                        contextInfo += `- Stress: ${recent.score.stressSeverity}\n`;
+                    }
+                    
+                    contextInfo += `\nPlease tailor your responses to be supportive and relevant to their current mental health state.`;
+                    
+                    setUserContext(contextInfo);
+                    
+                    // Update system message with context
+                    setMessages([{
+                        role: "system",
+                        content: servicePrompt + contextInfo
+                    }]);
+                }
+            } catch (err) {
+                console.error("Error fetching user context:", err);
+                // Don't show error to user, just proceed without context
+            }
+        }
+        
+        if (user && getQuestionnaireResponses) {
+            fetchUserContext();
+        }
+    }, [user]);
 
     // Check Ollama status on component mount
     useEffect(() => {

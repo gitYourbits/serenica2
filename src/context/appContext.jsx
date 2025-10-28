@@ -8,7 +8,7 @@ import { createUserWithEmailAndPassword,
         sendEmailVerification,
         updatePassword,
         sendPasswordResetEmail} from 'firebase/auth';
-import { addDoc, collection, doc, getDoc, getDocs, setDoc, deleteDoc, query, where } from 'firebase/firestore'
+import { addDoc, collection, doc, getDoc, getDocs, setDoc, deleteDoc, query, where, serverTimestamp } from 'firebase/firestore'
 import { auth, db } from '../firebase'
 
 
@@ -160,6 +160,87 @@ function AppContextProvider({children}) {
     }
 
 
+    // QUESTIONNAIRES - CBT Based Assessments
+    
+    // Save questionnaire response
+    function saveQuestionnaireResponse(uid, responseData){
+        return addDoc(collection(db, 'users', uid, 'questionnaires'), {
+            ...responseData,
+            timestamp: serverTimestamp()
+        })
+    }
+
+    // Get all questionnaire responses for a user
+    async function getQuestionnaireResponses(uid) {
+        return getDocs(collection(db, 'users', uid, 'questionnaires'))
+    }
+
+    // Get a specific questionnaire response
+    function getQuestionnaireResponse(uid, responseId) {
+        return getDoc(doc(db, 'users', uid, 'questionnaires', responseId))
+    }
+
+    // Delete a questionnaire response
+    function deleteQuestionnaireResponse(uid, responseId) {
+        return deleteDoc(doc(db, 'users', uid, 'questionnaires', responseId))
+    }
+
+
+    // NEUROBIC EXERCISES - Cognitive Training
+    
+    // Save exercise session result
+    function saveExerciseSession(uid, sessionData) {
+        return addDoc(collection(db, 'users', uid, 'neurobicSessions'), {
+            ...sessionData,
+            timestamp: serverTimestamp()
+        })
+    }
+
+    // Get all exercise sessions for a user
+    async function getExerciseSessions(uid) {
+        return getDocs(collection(db, 'users', uid, 'neurobicSessions'))
+    }
+
+    // Get exercise history for specific exercise
+    async function getExerciseHistory(uid, exerciseId) {
+        const sessionsRef = collection(db, 'users', uid, 'neurobicSessions')
+        const q = query(sessionsRef, where('exerciseId', '==', exerciseId))
+        return getDocs(q)
+    }
+
+    // Get user's exercise statistics
+    async function getExerciseStats(uid) {
+        const sessions = await getDocs(collection(db, 'users', uid, 'neurobicSessions'))
+        const data = sessions.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
+        
+        // Calculate stats
+        const totalSessions = data.length
+        const avgScore = data.length > 0 
+            ? data.reduce((sum, session) => sum + (session.score || 0), 0) / data.length 
+            : 0
+        
+        const categoryStats = {}
+        data.forEach(session => {
+            if (!categoryStats[session.category]) {
+                categoryStats[session.category] = { count: 0, totalScore: 0 }
+            }
+            categoryStats[session.category].count++
+            categoryStats[session.category].totalScore += session.score || 0
+        })
+        
+        Object.keys(categoryStats).forEach(cat => {
+            categoryStats[cat].avgScore = categoryStats[cat].totalScore / categoryStats[cat].count
+        })
+        
+        return {
+            totalSessions,
+            avgScore: Math.round(avgScore),
+            categoryStats,
+            lastSession: data.length > 0 ? data[data.length - 1] : null
+        }
+    }
+
+
 
     // RESOURCES ( BOOKS & ARTICLES)
     
@@ -199,6 +280,16 @@ function AppContextProvider({children}) {
         getAppointments,
         getResources,
         getLinks,
+        // Questionnaires
+        saveQuestionnaireResponse,
+        getQuestionnaireResponses,
+        getQuestionnaireResponse,
+        deleteQuestionnaireResponse,
+        // Neurobic Exercises
+        saveExerciseSession,
+        getExerciseSessions,
+        getExerciseHistory,
+        getExerciseStats,
     }
 
 

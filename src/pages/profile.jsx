@@ -62,6 +62,18 @@ function Profile() {
           </NavLink>
 
           <NavLink
+          to='questionnaires'
+          className='navlink user-profile-link'>
+            Mental Health Assessments
+          </NavLink>
+
+          <NavLink
+          to='neurobic'
+          className='navlink user-profile-link'>
+            Brain Exercises
+          </NavLink>
+
+          <NavLink
           to='messages'
           className='navlink user-profile-link'>
             Notifications
