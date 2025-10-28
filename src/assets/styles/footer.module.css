@@ -1,0 +1,94 @@
+/* Scoped to Footer Component */
+.footer {
+    background-color: var(--secondary-bg);
+    color: var(--text-primary);
+    padding: 40px 20px;
+    text-align: center;
+    border-top: 1px solid var(--border-color);
+    margin-top: 50px;
+    box-shadow: var(--card-shadow);
+}
+  
+.footerContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 20px;
+    row-gap: 50px;
+    max-width: 1000px;
+    margin: auto;
+}
+  
+.linksSection, .contactSection, .socialSection {
+    flex: 1;
+    min-width: 200px;
+}
+
+.contactSection p, .linksSection ul li a{
+    font-size: var(--Text-Four);
+    line-height: 1.5;
+    color: var(--text-secondary);
+}
+  
+.footer h4 {
+    font-family: var(--primary-font);
+    font-size: var(--Text-Two);
+    margin-bottom: 15px;
+    color: var(--accent-color);
+}
+  
+.footer ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+  
+.footer ul li {
+    margin: 8px 0;
+}
+  
+.footer a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+  
+.footer a:hover {
+    color: var(--accent-color);
+    text-decoration: none;
+}
+  
+.socialSection .socialIcons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+  
+.socialIcons a {
+    color: var(--text-secondary);
+    font-size: var(--Text-Four);
+    transition: color 0.2s ease;
+}
+  
+.socialIcons a:hover {
+    color: var(--accent-color);
+}
+  
+.footer .copyright {
+    margin-top: 50px;
+    font-size: var(--Text-Five);
+    color: var(--text-secondary);
+}
+
+@media screen and (max-width: 760px) {
+    .footerContainer {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .linksSection, .contactSection, .socialSection {
+        width: 100%;
+    }
+}
+  

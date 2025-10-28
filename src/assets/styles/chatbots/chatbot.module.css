@@ -1,0 +1,226 @@
+  /* Chat Area Container */
+  .chatArea {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; 
+    align-items: center;
+    max-width: 95%;
+    margin: 10px auto 35px;
+    height: calc(100vh - var(--header-height) - var(--footer-height));
+    background-color: var(--secondary-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+  }
+  
+  /* Chat Headline */
+  .ChatHeadline {
+    font-size: var(--Text-Two);
+    color: var(--accent-color);
+    padding: .8rem;
+    background-color: var(--secondary-bg);
+    width: 100%;
+    text-align: center;
+    border-bottom: 1px solid var(--border-color);
+    position: sticky; 
+    top: 0;
+    z-index: 10;
+    font-weight: 600;
+  }
+  
+  /* Messages Container */
+  .messagesContainer {
+    display: flex; 
+    flex-direction: column; 
+    width: 100%;
+    padding: 0.5rem;
+    flex-grow: 1; 
+    overflow-y: auto; 
+    background-color: var(--secondary-bg);
+    scrollbar-width: thin;
+  }
+  
+  /* Scrollbar Customization */
+  .messagesContainer::-webkit-scrollbar {
+    width: 5px;
+  }
+  
+  .messagesContainer::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 4px;
+  }
+  
+  .messagesContainer::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-color);
+  }
+  
+  /* Chat Message Styles */
+  .message {
+    max-width: 80%; 
+    padding: 0.8rem 1rem;
+    border-radius: 12px;
+    font-size: var(--Text-Four);
+    word-wrap: break-word;
+    margin: 0.5rem 0;
+    position: relative; 
+    line-height: 1.5;
+  }
+  
+  /* User Message */
+  .userMessage {
+    align-self: flex-end; 
+    background-color: var(--accent-color);
+    color: var(--text-primary);
+    text-align: right;
+    border-top-right-radius: 0; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* AI Message */
+  .aiMessage {
+    align-self: flex-start; 
+    background-color: var(--primary-bg);
+    color: var(--text-primary);
+    text-align: left;
+    border-top-left-radius: 0; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Error Message */
+  .errorMessage {
+    color: var(--text-primary);
+    font-size: var(--Text-Five);
+    text-align: center;
+    margin: 0.5rem 0;
+    background-color: var(--error-color);
+    font-weight: 500;
+    padding: 10px;
+    border-radius: 8px;
+  }
+  
+  /* Ollama Warning Styles */
+  .ollamaWarning {
+    width: 90%;
+    margin: 1rem auto;
+    padding: 1rem;
+    background-color: rgba(255, 200, 0, 0.2);
+    border: 1px solid rgba(255, 200, 0, 0.5);
+    border-radius: 8px;
+    text-align: center;
+    color: var(--text-primary);
+  }
+  
+  .ollamaHelp {
+    font-size: var(--Text-Five);
+    margin-top: 0.5rem;
+    color: var(--text-secondary);
+  }
+  
+  .ollamaHelp a {
+    color: var(--accent-color);
+    text-decoration: underline;
+  }
+  
+  .ollamaHelp code {
+    display: inline-block;
+    background-color: var(--primary-bg);
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-family: monospace;
+    margin-top: 0.5rem;
+  }
+  
+  /* Message Input Form */
+  .messageInput {
+    display: flex;
+    width: 100%;
+    padding: 1rem;
+    background-color: var(--secondary-bg);
+    border-top: 1px solid var(--border-color);
+  }
+  
+  /* Input Field */
+  .messageInput input[type="text"] {
+    flex: 1;
+    padding: 0.8rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background-color: var(--primary-bg);
+    color: var(--text-primary);
+    font-size: var(--Text-Four);
+    margin-right: 0.5rem;
+  }
+  
+  .messageInput input[type="text"]:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+  }
+  
+  /* Send Button */
+  .messageInput input[type="submit"] {
+    padding: 0.8rem 1.5rem;
+    background-color: var(--accent-color);
+    color: var(--text-primary);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s;
+  }
+  
+  .messageInput input[type="submit"]:hover {
+    background-color: var(--accent-hover);
+  }
+  
+  .messageInput input[type="submit"]:disabled,
+  .messageInput input[type="text"]:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  
+  .typingIndicator {
+    opacity: 0.7;
+    font-style: italic;
+  }
+  
+  .dots {
+    display: inline-block;
+    animation: blink 1.4s infinite;
+  }
+  
+  @keyframes blink {
+    0% { opacity: 0.2; }
+    20% { opacity: 1; }
+    100% { opacity: 0.2; }
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .chatArea {
+      height: calc(100vh - var(--header-height-mobile) - var(--footer-height-mobile));
+    }
+  
+    .ChatHeadline {
+      font-size: var(--Text-Three);
+      padding: 0.5rem;
+    }
+  
+    .messageInput input[type="text"] {
+      padding: 0.6rem;
+      font-size: var(--Text-Five);
+    }
+  
+    .messageInput input[type="submit"] {
+      padding: 0.6rem 1rem;
+      font-size: var(--Text-Five);
+    }
+  }
+  
+  @keyframes fade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+

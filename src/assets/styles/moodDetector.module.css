@@ -1,0 +1,393 @@
+.moodDetectorContainer {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 512px;
+  background-color: var(--secondary-bg);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  user-select: none;
+  transform-origin: center center;
+  will-change: transform;
+}
+
+.minimized {
+  width: 320px;
+  height: 60px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.header h2 {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.headerButtons {
+  display: flex;
+  gap: 8px;
+}
+
+.minimizeButton, .pipButton {
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0 5px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  line-height: 1;
+}
+
+.minimizeButton:hover, .pipButton:hover {
+  transform: scale(1.1);
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.videoContainer {
+  position: relative;
+  width: 100%;
+  height: 384px;
+  overflow: hidden;
+  background-color: #000;
+}
+
+.video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.cameraStatus {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  font-size: 1rem;
+  z-index: 2;
+}
+
+.cameraStatus p {
+  padding: 8px 16px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 4px;
+  animation: pulse 1.5s infinite;
+}
+
+.moodIndicator {
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  z-index: 3;
+}
+
+.moodIndicator span {
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+
+.minimizedContent {
+  padding: 10px 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  background-color: var(--secondary-bg);
+}
+
+.minimizedContent p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.errorContainer {
+  padding: 20px;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.1);
+  height: 384px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.errorMessage {
+  color: var(--error-color);
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
+.errorHint {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.chatbotLink {
+  display: inline-block;
+  margin-top: 8px;
+  color: var(--accent-color);
+  text-decoration: underline;
+  font-weight: 500;
+  transition: color 0.2s ease;
+  cursor: pointer;
+}
+
+.chatbotLink:hover {
+  color: var(--accent-hover);
+  text-decoration: none;
+}
+
+/* Make the container draggable */
+.moodDetectorContainer {
+  cursor: move;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .moodDetectorContainer {
+    width: 448px;
+  }
+  
+  .minimized {
+    width: 288px;
+  }
+  
+  .videoContainer {
+    height: 336px;
+  }
+  
+  .errorContainer {
+    height: 336px;
+  }
+}
+
+.debugButton {
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0 5px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  line-height: 1;
+}
+
+.debugButton:hover {
+  transform: scale(1.1);
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.debugPanel {
+  background-color: #333;
+  color: white;
+  padding: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.debugPanel p {
+  margin: 0 0 10px 0;
+  font-size: 0.9rem;
+  font-weight: bold;
+  text-align: center;
+  color: #ffcc00;
+}
+
+.debugButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  justify-content: center;
+}
+
+.debugButtons button {
+  background-color: #444;
+  border: 1px solid #666;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: all 0.2s ease;
+}
+
+.debugButtons button:hover {
+  background-color: #555;
+}
+
+.cameraPermissionContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 384px;
+  width: 100%;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+}
+
+.permissionButton {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #4285f4;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.permissionButton:hover {
+  background-color: #3367d6;
+}
+
+.webcam {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  position: absolute !important;
+  top: 0;
+  left: 0;
+}
+
+.detectionStatus {
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.detectionStatus {
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin: 0 auto;
+  max-width: 90%;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.3s ease-in;
+}
+
+.webcamAlternative {
+  margin: 5px 0 0 0;
+  font-size: 0.8rem;
+  text-align: center;
+  color: #ffcc00;
+  padding: 5px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+.fallbackContainer {
+  position: absolute;
+  bottom: 50px;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 10px;
+  border-radius: 8px;
+  margin: 0 auto;
+  width: 90%;
+  z-index: 10;
+}
+
+.fallbackContainer p {
+  color: white;
+  margin: 0 0 10px 0;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.fallbackButton {
+  background-color: #4285f4;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 15px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.fallbackButton:hover {
+  background-color: #3367d6;
+} 
