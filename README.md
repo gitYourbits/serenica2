@@ -1,337 +1,122 @@
-# EmotionX: AI-Powered Mental Health Support Platform
+# EmotionX - AI Mental Health Platform
 
-## Table of Contents
-1. [Introduction](#introduction)
-2. [Technical Architecture](#technical-architecture)
-3. [AI Integration](#ai-integration)
-4. [Security & Privacy](#security--privacy)
-5. [User Experience](#user-experience)
-6. [Performance Optimization](#performance-optimization)
-7. [Development Setup](#development-setup)
-8. [Deployment Guide](#deployment-guide)
-9. [Contributing Guidelines](#contributing-guidelines)
-10. [License](#license)
+AI-powered mental health support with chatbots, mood detection, CBT assessments, and brain training games.
 
-## Introduction
+## Features
 
-EmotionX is a cutting-edge mental health support platform that combines the power of artificial intelligence with human expertise to provide accessible, personalized mental health care. This platform represents a significant advancement in the field of digital mental health, offering a unique blend of AI-driven support and professional therapeutic guidance.
+- 🤖 **AI Chatbots** - CBT, Mindfulness, Career coaching (powered by Ollama/Llama2)
+- 😊 **Mood Detection** - Real-time facial expression recognition
+- 📝 **CBT Assessments** - PHQ-9, GAD-7, DASS-21, Thought Records
+- 🧠 **Brain Training** - 12 neurobic exercises (memory, attention, creativity)
+- 📅 **Appointments** - Book sessions with Google Meet integration
+- 🔐 **Secure** - Firebase Auth + Firestore with proper security rules
 
-### Key Features
-- AI-powered conversational support using Google's Gemini API
-- Real-time facial expression and mood detection
-- Personalized treatment recommendations
-- Progress tracking and analytics
-- Multi-language support
-- Accessibility features
+## Tech Stack
 
-### Target Audience
-- Individuals seeking mental health support
-- Licensed therapists and counselors
-- Mental health organizations
-- Healthcare providers
-- Educational institutions
+- React 18 + Vite
+- Firebase (Auth, Firestore, Functions)
+- Ollama AI (local, free)
+- face-api.js + TensorFlow.js
+- CSS Modules
 
-## Technical Architecture
-
-### Frontend Architecture
-- **Framework**: React.js with Vite
-- **State Management**: React Context
-- **Styling**: CSS Modules with CSS Variables
-- **UI Components**: Custom component library
-- **Responsive Design**: Mobile-first approach
-
-### Backend Architecture
-- **Server**: Firebase
-- **Database**: Firestore
-- **Authentication**: Firebase Auth
-- **File Storage**: Firebase Storage
-- **Real-time Features**: Firebase Realtime Database
-- **AI Integration**: Google Gemini API
-
-### System Components
-1. **User Interface Layer**
-   - Responsive web application
-   - Progressive Web App (PWA) capabilities
-   - Cross-browser compatibility
-
-2. **Application Layer**
-   - Business logic implementation
-   - Data processing
-   - API integration
-
-3. **Data Layer**
-   - Data persistence
-   - Caching
-   - Data validation
-
-4. **Integration Layer**
-   - Third-party service integration
-   - API management
-   - Webhook handling
-
-## AI Integration
-
-### Gemini API Implementation
-- Cloud-based inference
-- Custom prompt engineering
-- Context-aware responses
-- Emotional intelligence capabilities
-
-### AI Features
-1. **Conversational AI**
-   - Natural language processing
-   - Context understanding
-   - Emotional recognition
-   - Response generation
-
-2. **Emotional Analysis**
-   - Facial expression detection
-   - Emotion recognition
-   - Behavioral patterns
-   - Risk assessment
-
-3. **Personalization**
-   - User preference learning
-   - Adaptive responses
-   - Treatment customization
-   - Progress tracking
-
-### AI Safety Measures
-- Content filtering
-- Ethical guidelines
-- Privacy protection
-- Human oversight
-
-## Security & Privacy
-
-### Data Protection
-- End-to-end encryption
-- Secure data storage
-- Regular security audits
-- Compliance with HIPAA
-
-### Privacy Features
-- User consent management
-- Data anonymization
-- Secure communication
-- Privacy policy compliance
-
-### Authentication & Authorization
-- Multi-factor authentication
-- Role-based access control
-- Session management
-- Secure password handling
-
-## User Experience
-
-### Design Principles
-- User-centered design
-- Accessibility compliance
-- Intuitive navigation
-- Consistent branding
-
-### Interface Components
-1. **Chat Interface**
-   - Real-time messaging
-   - Message history
-   - File sharing
-   - Typing indicators
-
-2. **Mood Detection**
-   - Real-time facial expression analysis
-   - Emotion recognition
-   - Personalized recommendations
-   - Privacy-focused implementation
-
-3. **Dashboard**
-   - Progress tracking
-   - Appointment management
-   - Resource access
-   - Settings control
-
-### Accessibility Features
-- Screen reader support
-- Keyboard navigation
-- Color contrast
-- Font size adjustment
-
-## Performance Optimization
-
-### Frontend Optimization
-- Code splitting
-- Lazy loading
-- Image optimization
-- Cache management
-
-### Backend Optimization
-- Database indexing
-- Query optimization
-- Load balancing
-- Caching strategies
-
-### Monitoring & Analytics
-- Performance metrics
-- Error tracking
-- User analytics
-- System health monitoring
-
-## Development Setup
+## Quick Start
 
 ### Prerequisites
-- Node.js (v16 or higher)
-- npm (v7 or higher)
-- Firebase account
-- Google Cloud account (for Gemini API)
-- Git
+1. Node.js v18+
+2. Ollama with llama2: `ollama pull llama2:latest`
+3. Firebase project with Auth, Firestore, Functions enabled
 
-### Installation Steps
+### Setup
+```bash
+# Install
+npm install
+cd functions && npm install && cd ..
 
-1. **Clone the Repository**
-   ```bash
-   git clone https://github.com/yourusername/emotionx.git
-   cd emotionx
-   ```
+# Configure
+cp env.template .env
+# Edit .env with Firebase config
 
-2. **Install Dependencies**
-   ```bash
-   npm install
-   ```
+# Download face models
+npm run download-models
 
-3. **Download Face-api.js Models**
-   ```bash
-   npm run download-models
-   ```
+# Verify
+npm run verify-setup
 
-4. **Configure Environment Variables**
-   Create a .env file with:
-   ```
-   VITE_APP_API_KEY=your_firebase_api_key
-   VITE_APP_AUTH_DOMAIN=your_firebase_auth_domain
-   VITE_APP_PROJECT_ID=your_firebase_project_id
-   VITE_APP_STORAGE_BUCKET=your_firebase_storage_bucket
-   VITE_APP_MESSAGING_SENDER_ID=your_firebase_messaging_sender_id
-   VITE_APP_APP_ID=your_firebase_app_id
-   VITE_GEMINI_API_KEY=your_gemini_api_key
-   ```
-
-5. **Start Development Server**
-   ```bash
-   npm run dev
-   ```
-
-6. **Build for Production**
-   ```bash
-   npm run build
-   ```
-
-### Firebase Setup
-1. Go to Firebase Console
-2. Create New Project
-3. Enable Authentication:
-   - Email/Password
-   - Google Sign-in (optional)
-4. Set up Firestore Database:
-   - Start in production mode
-   - Choose location
-5. Configure Storage:
-   - Set up security rules
-   - Enable file uploads
-
-### Security Rules
-```javascript
-// Firestore Rules
-rules_version = '2';
-service cloud.firestore {
-  match /databases/{database}/documents {
-    match /{document=**} {
-      allow read, write: if request.auth != null;
-    }
-  }
-}
+# Run
+npm run dev
 ```
 
-## Deployment Guide
+Open http://localhost:5173/
 
-### Prerequisites
-- Node.js 18.x or higher
-- Firebase project
-- Google Cloud project
-- SSL certificate
+## Commands
 
-### Deployment Steps
-1. **Environment Setup**
-   ```bash
-   # Clone repository
-   git clone https://github.com/your-org/emotionx.git
-   cd emotionx
+```bash
+npm run dev              # Start dev server
+npm run build            # Build for production
+npm run verify-setup     # Check configuration
+npm run download-models  # Get face detection models
+```
 
-   # Install dependencies
-   npm install
+## Environment Variables
 
-   # Download face-api.js models
-   npm run download-models
+Create `.env` from `env.template` with your Firebase config:
+```env
+VITE_APP_API_KEY=...
+VITE_APP_AUTH_DOMAIN=...
+VITE_APP_PROJECT_ID=...
+VITE_APP_STORAGE_BUCKET=...
+VITE_APP_MESSAGING_SENDER_ID=...
+VITE_APP_APP_ID=...
+```
 
-   # Set up environment variables
-   cp .env.example .env
-   ```
+## Deployment
 
-2. **Firebase Setup**
-   - Create Firebase project
-   - Enable Authentication
-   - Configure Storage
-   - Set up Security Rules
+```bash
+# Build
+npm run build
 
-3. **Google Cloud Setup**
-   - Create project
-   - Enable Gemini API
-   - Create API key
-   - Set up quotas and monitoring
+# Deploy security rules
+firebase deploy --only firestore:rules
+firebase deploy --only firestore:indexes
 
-4. **Deployment**
-   ```bash
-   # Build application
-   npm run build
+# Deploy functions & hosting
+firebase deploy
+```
 
-   # Deploy to Firebase
-   firebase deploy
-   ```
+## Troubleshooting
 
-### Monitoring Setup
-- Set up logging
-- Configure alerts
-- Monitor performance
-- Track errors
+| Issue | Fix |
+|-------|-----|
+| Chatbot not responding | Check Ollama: `ollama list` |
+| Firebase errors | Verify `.env` config |
+| Camera issues | Allow permissions, use Chrome/Edge |
+| 404 on models | Run `npm run download-models` |
 
-## Contributing Guidelines
+Run `npm run verify-setup` to diagnose issues.
 
-### Development Process
-1. Fork repository
-2. Create feature branch
-3. Make changes
-4. Submit pull request
-5. Code review
-6. Merge changes
+## Project Structure
 
-### Code Standards
-- ESLint configuration
-- Prettier formatting
-- TypeScript types
-- Documentation
+```
+src/
+├── components/
+│   ├── chatbots/         # AI therapist bots
+│   ├── questionnaires/   # CBT assessments
+│   └── neurobic/         # Brain games
+├── context/
+│   └── appContext.jsx    # Firebase operations
+├── services/
+│   ├── questionnaireService.js
+│   └── neurobicService.js
+└── firebase.js
+```
 
-### Testing
-- Unit tests
-- Integration tests
-- E2E tests
-- Performance tests
+## Security
+
+- Firestore rules in `firestore.rules`
+- Environment vars for sensitive config
+- Authentication required for all data access
+- Indexes optimized in `firestore.indexes.json`
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-### Acknowledgments
-- Google Gemini team
-- Face-api.js developers
-- React community
-- Firebase team
-
-
+MIT

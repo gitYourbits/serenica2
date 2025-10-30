@@ -1,0 +1,92 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    function isValidTimestamp(timestamp) {
+      return timestamp is timestamp;
+    }
+    
+    // User documents - users can only access their own data
+    match /users/{userId} {
+      allow read, write: if isOwner(userId);
+      
+      // User questionnaire responses
+      match /questionnaires/{responseId} {
+        allow read: if isOwner(userId);
+        allow create: if isOwner(userId) 
+                      && request.resource.data.keys().hasAll(['questionnaireId', 'answers', 'score', 'timestamp']);
+        allow update, delete: if isOwner(userId);
+      }
+      
+      // User neurobic exercise sessions
+      match /neurobicSessions/{sessionId} {
+        allow read: if isOwner(userId);
+        allow create: if isOwner(userId) 
+                      && request.resource.data.keys().hasAll(['exerciseId', 'score', 'duration', 'timestamp']);
+        allow update, delete: if isOwner(userId);
+      }
+      
+      // User appointments/bookings
+      match /appointments/{appointmentId} {
+        allow read: if isOwner(userId);
+        allow create: if isOwner(userId) 
+                      && request.resource.data.keys().hasAll(['name', 'email', 'date', 'time']);
+        allow update, delete: if isOwner(userId);
+      }
+      
+      // User chat logs (optional)
+      match /chatLogs/{logId} {
+        allow read, write: if isOwner(userId);
+      }
+    }
+    
+    // Virtual session links (Google Meet links for appointments)
+    // These can be created by cloud functions and read by authenticated users
+    match /virtualSessionLinks/{linkId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update, delete: if false; // Only via Cloud Functions
+    }
+    
+    // Resources (articles, books, etc.) - read-only for authenticated users
+    match /resources/{resourceId} {
+      allow read: if isAuthenticated();
+      allow write: if false; // Only via admin/console
+    }
+    
+    // Mental health professionals/therapists info
+    match /therapists/{therapistId} {
+      allow read: if isAuthenticated();
+      allow write: if false; // Only via admin/console
+    }
+    
+    // Public configurations (read-only)
+    match /config/{configId} {
+      allow read: if true; // Public read
+      allow write: if false; // Only via admin/console
+    }
+    
+    // Analytics/metrics (optional) - write-only for authenticated users
+    match /analytics/{metricId} {
+      allow read: if false; // Only via admin/backend
+      allow create: if isAuthenticated();
+      allow update, delete: if false;
+    }
+    
+    // Deny all other access
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
+
