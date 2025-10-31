@@ -1,4 +1,4 @@
-import { initializeApp }from "firebase/app"
+import { initializeApp } from "firebase/app"
 import { getAuth } from "firebase/auth"
 import { getFirestore } from "firebase/firestore"
 
@@ -10,9 +10,6 @@ const app = initializeApp({
     messagingSenderId: import.meta.env.VITE_APP_MESSAGING_SENDER_ID,
     appId: import.meta.env.VITE_APP_APP_ID,
 })
-
-
-
 
 
 export const auth = getAuth(app);
